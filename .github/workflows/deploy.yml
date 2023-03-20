@@ -2,35 +2,8 @@ name: Deploy
 on: [push]
 
 jobs:
-    # Build job
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
-
-            - name: Set up Node.js environment
-              uses: actions/setup-node@v2
-              with:
-                  node-version: '16.x'
-
-            - name: Install dependencies
-              run: npm install
-
-            - name: Build project
-              run: npm run build
-
-            - name: Upload artifact
-              uses: actions/upload-artifact@main
-              with:
-                path: dist
-                name: github-pages
-
     # Deploy job
     deploy:
-        # Add a dependency to the build job
-        needs: build
-
         # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
         permissions:
             pages: write      # to deploy to Pages
@@ -44,6 +17,25 @@ jobs:
         # Specify runner + deployment step
         runs-on: ubuntu-latest
         steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Set up Node.js environment
+              uses: actions/setup-node@v2
+              with:
+                    node-version: '16.x'
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Build project
+              run: npm run build
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@main
+              with:
+                    path: dist
+
             - name: Deploy to GitHub Pages
               id: deployment
               uses: actions/deploy-pages@v1
