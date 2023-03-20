@@ -23,7 +23,8 @@ jobs:
             - name: Upload artifact
               uses: actions/upload-artifact@main
               with:
-                path: ./dist
+                path: dist
+                name: github-pages
 
     # Deploy job
     deploy:
@@ -37,7 +38,7 @@ jobs:
 
         # Deploy to the github-pages environment
         environment:
-            name: artifact
+            name: github-pages
             url: ${{ steps.deployment.outputs.page_url }}
 
         # Specify runner + deployment step
